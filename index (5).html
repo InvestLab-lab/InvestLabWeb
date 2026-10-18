@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>InvestLab — Educación financiera y análisis de mercados</title>
+<meta name="description" content="InvestLab es una comunidad gratuita de educación financiera: análisis de mercados explicado con claridad, revisión de portafolios y aprendizaje compartido, sin promesas de dinero fácil.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://myinvestlab.vercel.app/">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="favicon.png">
+<meta name="theme-color" content="#050505">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="InvestLab">
+<meta property="og:title" content="InvestLab — Educación financiera y análisis de mercados">
+<meta property="og:description" content="Comunidad gratuita de educación financiera: análisis de mercados, revisión de portafolios y aprendizaje compartido.">
+<meta property="og:url" content="https://myinvestlab.vercel.app/">
+<meta property="og:image" content="https://myinvestlab.vercel.app/og-image.png">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="InvestLab — Educación financiera y análisis de mercados">
+<meta name="twitter:image" content="https://myinvestlab.vercel.app/og-image.png">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"InvestLab","url":"https://myinvestlab.vercel.app/","logo":"https://myinvestlab.vercel.app/favicon.png","description":"Comunidad gratuita de educación financiera y análisis de mercados en español.","email":"investlab@outlook.es","sameAs":["https://whatsapp.com/channel/0029VbDvuqaHrDZWlTD1MX34","https://www.youtube.com/channel/UCIQTJbA-q1zY8fIxdmKHK9g"]}
+</script>
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@1,500&display=swap" rel="stylesheet">
+<style>
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap');
+:root{
+--bg:#050505;--fg:#f5f5f5;--dim:#929292;--dim2:#55555a;
+--line:rgba(255,255,255,.1);--glass:rgba(255,255,255,.03);--glassh:rgba(255,255,255,.055);
+--pos:#9ab;--neg:#b88;--white:#ffffff;--acc:#3fa876;--accl:#7ecaa4;
+--mono:'JetBrains Mono',ui monospace,monospace;
+--disp:'Satoshi','Space Grotesk',Arial,sans-serif;
+--serif:'Cormorant Garamond',Georgia,serif;
+padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:40px}
+body{background:var(--bg);color:var(--fg);font-family:var(--disp);line-height:1.55;overflow-x:hidden}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+::selection{background:var(--white);color:#050505}
+em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--accl)}
+
+.gridbg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
+background-size:52px 52px}
+.spotlight{position:fixed;inset:0;z-index:1;pointer-events:none;
+background:radial-gradient(560px circle at var(--mx,50%) var(--my,30%),rgba(255,255,255,.045),transparent 55%)}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;box-shadow:inset 0 0 220px rgba(0,0,0,.75)}
+
+.sidebar{position:fixed;top:0;left:0;height:100vh;width:76px;z-index:100;display:flex;flex-direction:column;align-items:center;
+background:rgba(8,8,8,.5);backdrop-filter:blur(18px);border-right:1px solid var(--line);
+padding:calc(env(safe-area-inset-top,0px) + 22px) 0 calc(env(safe-area-inset-bottom,0px) + 18px)}
+.sb-logo{width:28px;height:28px;color:var(--fg)}
+.sb-leds{display:flex;gap:5px;margin:16px 0 20px}
+.sb-leds i{width:3.5px;height:3.5px;border-radius:50%;background:var(--white);opacity:.4;animation:pulse 2.4s ease-in-out infinite}
+.sb-leds i:nth-child(2){animation-delay:.35s}.sb-leds i:nth-child(3){animation-delay:.7s}
+@keyframes pulse{0%,100%{opacity:.2}50%{opacity:.8}}
+.sb-nav{display:flex;flex-direction:column;align-items:center;gap:20px}
+.sb-item{display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:var(--dim2);background:none;border:none;font-family:inherit;cursor:pointer}
+.sb-item .ic{width:40px;height:40px;border-radius:13px;border:1px solid var(--line);background:var(--glass);display:flex;align-items:center;justify-content:center;transition:all .3s}
+.sb-item .ic svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.4}
+.sb-item span{font-size:9px;letter-spacing:.03em}
+.sb-item:hover,.sb-item.active{color:var(--fg)}
+.sb-item:hover .ic,.sb-item.active .ic{border-color:var(--acc);box-shadow:0 0 12px rgba(63,168,118,.25)}
+.sb-item.soon{opacity:.35}
+.sb-bottom{margin-top:auto}
+
+nav{position:sticky;top:0;z-index:90;padding:calc(env(safe-area-inset-top,0px) + 16px) 28px 16px;display:flex;justify-content:space-between;align-items:center;
+backdrop-filter:blur(18px);background:rgba(5,5,5,.55);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.05em;font-size:14px}
+.logo svg{width:22px;height:22px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:.95em 1.8em;border-radius:100px;font-weight:700;font-size:14px;text-decoration:none;transition:transform .3s,border-color .3s}
+.btn:hover{transform:translateY(-2px)}
+.btn-p{background:var(--fg);color:#050505;transition:transform .3s,box-shadow .3s}
+.btn-p:hover{box-shadow:0 0 0 1px var(--acc),0 0 24px rgba(63,168,118,.25)}
+.btn-o{border:1px solid var(--line);color:var(--fg);background:var(--glass)}
+.btn-o:hover{border-color:rgba(255,255,255,.35)}
+.btn-lg{padding:1.2em 2.4em;font-size:16px;border-radius:14px}
+
+@media(min-width:901px){body{padding-left:76px}}
+@media(max-width:900px){
+.sidebar{top:auto;bottom:0;left:0;width:100%;height:auto;flex-direction:row;border-right:none;border-top:1px solid var(--line);
+padding:10px 10px calc(env(safe-area-inset-bottom,0px) + 8px);justify-content:center;gap:8px}
+.sb-logo,.sb-leds{display:none}
+.sb-nav{flex-direction:row;gap:6px}
+.sb-item span{display:none}
+body{padding-bottom:70px}
+}
+
+section{position:relative;z-index:2;padding:130px 0}
+.hero{min-height:94vh;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:140px 0 100px}
+#chart{position:absolute;inset:0;width:100%;height:100%;opacity:.3;z-index:0}
+.hero .in{position:relative;z-index:2}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--dim);letter-spacing:.3em;font-size:11px;text-transform:uppercase;margin-bottom:30px;font-family:var(--mono)}
+.eyebrow i{width:5px;height:5px;border-radius:50%;background:var(--acc);box-shadow:0 0 7px rgba(63,168,118,.55);opacity:.9;animation:pulse 2.4s ease-in-out infinite}
+h1{font-weight:800;letter-spacing:-.03em;line-height:1.08;font-size:clamp(36px,5.6vw,66px);max-width:780px;margin:0 auto 30px}
+h1 .ln{display:block;overflow:hidden}
+h1 .ch{display:inline-block;opacity:0;transform:translateY(60%);animation:rise .9s cubic-bezier(.19,.84,.3,1) forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+h1 .accent{opacity:0;animation:softfade 1.3s ease forwards;animation-delay:1.5s}
+@keyframes softfade{from{opacity:0}to{opacity:1}}
+.lead{color:var(--dim);font-size:clamp(16px,1.8vw,18px);max-width:480px;margin:0 auto 46px;opacity:0;animation:fadeup 1.2s ease forwards;animation-delay:1.8s}
+@keyframes fadeup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeup 1.2s ease forwards;animation-delay:2.05s}
+
+.ticker-wrap{position:relative;z-index:2;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--glass);overflow:hidden;padding:15px 0}
+.ticker{display:flex;gap:46px;width:max-content;animation:tick 46s linear infinite;font-family:var(--mono);font-size:13px;white-space:nowrap}
+.ticker span{color:var(--dim)}
+.ticker b{color:var(--fg);margin-right:8px;font-weight:500}
+.ticker .up{color:var(--accl)}
+.ticker .down{color:#d79a9a}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.reveal{opacity:0;transform:translateY(24px);filter:blur(5px);transition:opacity 1.1s cubic-bezier(.19,.7,.3,1),transform 1.1s cubic-bezier(.19,.7,.3,1),filter 1.1s ease}
+.reveal.on{opacity:1;transform:none;filter:blur(0)}
+.tag{display:flex;align-items:center;gap:10px;color:var(--dim);letter-spacing:.22em;font-size:11px;text-transform:uppercase;margin-bottom:20px;font-family:var(--mono)}
+.tag::before{content:"";width:16px;height:1px;background:var(--acc)}
+h2{font-weight:700;letter-spacing:-.02em;font-size:clamp(26px,3.6vw,40px);max-width:680px}
+.sub{color:var(--dim);font-size:16.5px;max-width:540px;margin-top:18px}
+
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-top:60px}
+.card{background:var(--bg);padding:40px 32px;transition:background .4s}
+.card:hover{background:var(--glass)}
+.card .n{color:var(--dim);font-size:12px;font-family:var(--mono);margin-bottom:22px;display:block;letter-spacing:.1em}
+.card h3{font-size:19px;margin-bottom:10px;font-weight:700;letter-spacing:-.01em}
+.card p{color:var(--dim);font-size:14.5px}
+
+.about{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:start;margin-top:56px}
+.about-quote{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(24px,2.6vw,32px);line-height:1.4;color:var(--white)}
+.about-body p{color:var(--dim);font-size:16px;margin-bottom:20px}
+.about-body p:last-child{margin-bottom:0}
+.about-stats{display:flex;gap:40px;margin-top:34px;border-top:1px solid var(--line);padding-top:28px}
+.about-stats .stat b{display:block;font-size:24px;font-family:var(--mono);font-weight:500;color:var(--accl)}
+.about-stats .stat span{color:var(--dim);font-size:12.5px}
+
+.split{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center;margin-top:56px}
+.panel{background:var(--glass);border:1px solid var(--line);border-radius:4px;padding:46px}
+.panel h3{font-size:24px;margin-bottom:12px;font-weight:700;letter-spacing:-.015em}
+.panel p{color:var(--dim);font-size:15px;margin-bottom:28px}
+.stat-row{display:flex;gap:38px}
+.stat b{display:block;font-size:24px;color:var(--accl);font-family:var(--mono);font-weight:500}
+.stat span{color:var(--dim);font-size:12.5px}
+.quote-card{position:relative;border:1px solid var(--line);border-radius:4px;padding:50px 40px;display:flex;align-items:center;justify-content:center;text-align:center;min-height:320px}
+.quote-card::before,.quote-card::after{content:"";position:absolute;width:22px;height:22px;border:1px solid var(--acc);opacity:.65}
+.quote-card::before{top:14px;left:14px;border-right:none;border-bottom:none}
+.quote-card::after{bottom:14px;right:14px;border-left:none;border-top:none}
+.quote-card p{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(22px,2.4vw,28px);line-height:1.45;color:var(--white)}
+
+.acc{border-top:1px solid var(--line);margin-top:56px}
+details{border-bottom:1px solid var(--line);padding:26px 2px}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:16px}
+summary::-webkit-details-marker{display:none}
+summary .p{font-size:20px;color:var(--dim);transition:transform .3s;font-weight:300;font-family:var(--mono)}
+details[open] summary .p{transform:rotate(45deg)}
+details p{color:var(--dim);font-size:14.5px;margin-top:14px;max-width:640px}
+
+.cta-block{text-align:center;background:var(--glass);border:1px solid var(--line);border-radius:4px;padding:80px 24px}
+.cta-block h2{margin:0 auto 16px}
+.cta-block .sub{margin:0 auto 38px}
+
+footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:44px 0 calc(36px + env(safe-area-inset-bottom,0px))}
+.f-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.f-links{display:flex;gap:24px}
+.f-links a{color:var(--dim);text-decoration:none;font-size:13px}
+.f-links a:hover{color:var(--fg)}
+.legal{color:var(--dim2);font-size:11px;margin-top:22px;font-family:var(--mono);max-width:640px}
+
+@media(max-width:760px){.grid3{grid-template-columns:1fr}.split{grid-template-columns:1fr}.about{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="gridbg"></div>
+<div class="spotlight" id="spot"></div>
+<div class="vignette"></div>
+
+<aside class="sidebar">
+<a href="#top" class="sb-logo"><svg viewBox="0 0 1520 1690"><path d="M688 324 L688 515 L506 810 Q465 876 530 876 L990 876 Q1055 876 1014 810 L832 515 L832 324" fill="none" stroke="currentColor" stroke-width="70" stroke-linecap="round" stroke-linejoin="round"/><path d="M760 324 L620 324 M760 324 L900 324" stroke="currentColor" stroke-width="70" stroke-linecap="round"/><path d="M590 805 L700 718 L770 766 L868 677" fill="none" stroke="currentColor" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/><circle cx="878" cy="662" r="42" fill="currentColor"/></svg></a>
+<div class="sb-leds"><i></i><i></i><i></i></div>
+<nav class="sb-nav">
+<a class="sb-item active" href="#top"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span><span>Inicio</span></a>
+<a class="sb-item" href="#que-hacemos"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3-4 3 2 4-6"/></svg></span><span>Mercado</span></a>
+<a class="sb-item" href="#nosotros"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></span><span>Nosotros</span></a>
+<a class="sb-item" href="#comunidad"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="3"/><circle cx="17" cy="10" r="2.4"/><path d="M3 19c0-3 2.5-5 5-5s5 2 5 5"/><path d="M14 19c.3-2.2 1.8-3.8 3.6-3.8 1.8 0 3.1 1.3 3.4 3.1"/></svg></span><span>Comunidad</span></a>
+<a class="sb-item" href="https://whatsapp.com/channel/0029VbDvuqaHrDZWlTD1MX34" target="_blank" rel="noopener"><span class="ic"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-5.1A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8.5 10.5c0 3 2.5 5.5 5.5 5.5"/></svg></span><span>WhatsApp</span></a>
+<span class="sb-item soon"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg></span><span>Pronto</span></span>
+</nav>
+<div class="sb-bottom"></div>
+</aside>
+
+<nav>
+<div class="logo"><svg viewBox="0 0 1520 1690"><path d="M688 324 L688 515 L506 810 Q465 876 530 876 L990 876 Q1055 876 1014 810 L832 515 L832 324" fill="none" stroke="currentColor" stroke-width="70" stroke-linecap="round" stroke-linejoin="round"/><path d="M760 324 L620 324 M760 324 L900 324" stroke="currentColor" stroke-width="70" stroke-linecap="round"/><path d="M590 805 L700 718 L770 766 L868 677" fill="none" stroke="currentColor" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/><circle cx="878" cy="662" r="42" fill="currentColor"/></svg>INVESTLAB</div>
+<a class="btn btn-p" href="https://whatsapp.com/channel/0029VbDvuqaHrDZWlTD1MX34" target="_blank" rel="noopener">Únete</a>
+</nav>
+
+<main>
+<header class="hero" id="top">
+<canvas id="chart"></canvas>
+<div class="in">
+<div class="eyebrow"><i></i>Comunidad de inversión</div>
+<h1 id="h1title">
+<span class="ln">El laboratorio donde</span>
+<span class="ln">la bolsa se vuelve <em class="accent">simple</em>.</span>
+</h1>
+<p class="lead">Resumen diario en una imagen. Sin humo. Datos reales.</p>
+<div class="cta-row">
+<a class="btn btn-p btn-lg" href="https://whatsapp.com/channel/0029VbDvuqaHrDZWlTD1MX34" target="_blank" rel="noopener">Únete gratis por WhatsApp</a>
+<a class="btn btn-o btn-lg" href="https://www.youtube.com/channel/UCIQTJbA-q1zY8fIxdmKHK9g" target="_blank" rel="noopener">Ver en YouTube</a>
+</div>
+</div>
+</header>
+
+<div class="ticker-wrap">
+<div class="ticker" id="ticker"></div>
+</div>
+
+<section id="que-hacemos">
+<div class="wrap">
+<div class="tag reveal">Qué hacemos</div>
+<h2 class="reveal">Tres formas de acercarte al mercado, sin ruido ni promesas vacías.</h2>
+<div class="grid3">
+<div class="card reveal"><span class="n">01 — ANÁLISIS</span><h3>Análisis diario</h3><p>Revisamos las noticias que mueven el mercado y explicamos qué significan, sin tecnicismos innecesarios.</p></div>
+<div class="card reveal"><span class="n">02 — REVISIÓN</span><h3>Portafolios</h3><p>Envía tu portafolio y lo comentamos en comunidad: qué tiene sentido, qué riesgos vale la pena revisar.</p></div>
+<div class="card reveal"><span class="n">03 — RED</span><h3>Comunidad</h3><p>Debate, preguntas y gente que también está aprendiendo. Networking real entre inversores.</p></div>
+</div>
+</div>
+</section>
+
+<section id="nosotros">
+<div class="wrap">
+<div class="tag reveal">Nuestro objetivo</div>
+<div class="about">
+<div class="about-quote reveal">Creemos que entender el mercado no debería ser un privilegio de quien ya tiene dinero.</div>
+<div class="about-body reveal">
+<p>InvestLab nació como un canal pequeño con una idea simple: explicar el mercado como se explica a un amigo, sin tecnicismos y sin prometer lo que nadie puede garantizar.</p>
+<p>No vendemos señales ni gestionamos tu dinero. Compartimos lo que estudiamos cada día, y construimos una comunidad donde se puede preguntar sin sentirse perdido.</p>
+<div class="about-stats">
+<div class="stat"><b>Diario</b><span>Contenido nuevo</span></div>
+<div class="stat"><b>Educativo</b><span>No es asesoramiento</span></div>
+<div class="stat"><b>Abierto</b><span>A cualquier nivel</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="comunidad">
+<div class="wrap">
+<div class="split">
+<div class="panel reveal">
+<div class="tag">La comunidad</div>
+<h3>Un espacio para aprender, no para adivinar</h3>
+<p>Cada día compartimos lo que se mueve en el mercado y abrimos el debate. Gratis para empezar; con el tiempo, sumaremos niveles con más profundidad para quien quiera ir más allá.</p>
+<div class="stat-row">
+<div class="stat"><b>Diario</b><span>Análisis de mercado</span></div>
+<div class="stat"><b>Abierta</b><span>Preguntas y debate</span></div>
+<div class="stat"><b>Gratis</b><span>Para empezar</span></div>
+</div>
+<div class="cta-row" style="justify-content:flex-start;margin-top:30px;animation:none;opacity:1"><a class="btn btn-p" href="https://whatsapp.com/channel/0029VbDvuqaHrDZWlTD1MX34" target="_blank" rel="noopener">Entrar al canal</a></div>
+</div>
+<div class="quote-card reveal"><p>"El mercado paga a quien tiene paciencia, no a quien tiene prisa."</p></div>
+</div>
+</div>
+</section>
+
+<section id="youtube">
+<div class="wrap">
+<div class="cta-block reveal">
+<h2>Suscríbete al canal</h2>
+<p class="sub">Nuevos vídeos sobre mercado, portafolios y análisis, sin relleno.</p>
+<a class="btn btn-p btn-lg" href="https://www.youtube.com/channel/UCIQTJbA-q1zY8fIxdmKHK9g" target="_blank" rel="noopener">Ir a YouTube</a>
+</div>
+</div>
+</section>
+
+<section id="faq">
+<div class="wrap">
+<div class="tag reveal">Preguntas frecuentes</div>
+<h2 class="reveal">Lo que suelen preguntar</h2>
+<div class="acc reveal">
+<details open><summary>¿Es asesoramiento financiero?<span class="p">+</span></summary><p>No. InvestLab es contenido educativo. Nunca operamos por ti ni gestionamos tu dinero: la decisión final siempre es tuya.</p></details>
+<details><summary>¿Cuánto cuesta unirse?<span class="p">+</span></summary><p>El canal de WhatsApp es gratis. Con el tiempo habrá niveles adicionales para quien quiera ir más a fondo, siempre con un plan gratuito de base.</p></details>
+<details><summary>¿Cómo envío mi portafolio para comentarlo?<span class="p">+</span></summary><p>Escríbelo a investlab@outlook.es y lo revisamos en la comunidad.</p></details>
+<details><summary>¿Garantizan resultados?<span class="p">+</span></summary><p>No, y desconfía de quien lo haga. El mercado tiene riesgo; nuestro trabajo es ayudarte a entenderlo mejor, no a prometerte ganancias.</p></details>
+</div>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="wrap">
+<div class="f-row">
+<div class="logo" style="font-size:13px"><svg viewBox="0 0 1520 1690" style="width:18px;height:18px"><path d="M688 324 L688 515 L506 810 Q465 876 530 876 L990 876 Q1055 876 1014 810 L832 515 L832 324" fill="none" stroke="currentColor" stroke-width="70" stroke-linecap="round" stroke-linejoin="round"/></svg>INVESTLAB</div>
+<div class="f-links"><a href="https://whatsapp.com/channel/0029VbDvuqaHrDZWlTD1MX34" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.youtube.com/channel/UCIQTJbA-q1zY8fIxdmKHK9g" target="_blank" rel="noopener">YouTube</a><a href="mailto:investlab@outlook.es">Contacto</a></div>
+</div>
+<p class="legal">InvestLab ofrece contenido con fines educativos. No constituye asesoramiento financiero ni una recomendación de inversión.</p>
+</div>
+</footer>
+
+<script>
+const spot=document.getElementById('spot');
+addEventListener('mousemove',e=>{spot.style.setProperty('--mx',e.clientX+'px');spot.style.setProperty('--my',e.clientY+'px')},{passive:true});
+
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('#h1title .ln').forEach((ln,li)=>{
+const nodes=[...ln.childNodes];
+ln.innerHTML='';
+nodes.forEach(node=>{
+if(node.nodeType===3){
+node.textContent.split('').forEach((ch,ci)=>{
+const s=document.createElement('span');s.className='ch';s.textContent=ch===' '?'\u00A0':ch;
+s.style.animationDelay=reduceMotion?'0s':(li*0.55+ci*0.026)+'s';
+if(reduceMotion){s.style.opacity=1;s.style.transform='none'}
+ln.appendChild(s);
+});
+}else{ln.appendChild(node)}
+});
+});
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+function seededLine(n,amp,seedStart){let seed=seedStart;const rnd=()=>(seed=seed*16807%2147483647)/2147483647;let v=0;const a=[];for(let i=0;i<n;i++){v+=(rnd()-.45)*amp;a.push(v)}const mn=Math.min(...a),mx=Math.max(...a)||1;return a.map(q=>(q-mn)/(mx-mn))}
+const cv=document.getElementById('chart'),cx=cv.getContext('2d');
+function rs(){cv.width=cv.offsetWidth*devicePixelRatio;cv.height=cv.offsetHeight*devicePixelRatio;cx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}
+rs();addEventListener('resize',rs);
+const L=seededLine(70,1,11);let t0=performance.now();
+function frame(now){const w=cv.offsetWidth,h=cv.offsetHeight;cx.clearRect(0,0,w,h);const t=(now-t0)/1000;
+cx.beginPath();
+L.forEach((v,i)=>{const x=i/(L.length-1)*w,y=h*.62-(v-.5)*h*.42+Math.sin(t*.25+i*.3)*4;i?cx.lineTo(x,y):cx.moveTo(x,y)});
+cx.lineJoin='round';cx.strokeStyle='#ffffff';cx.lineWidth=1.4;cx.globalAlpha=.5;cx.stroke();cx.globalAlpha=1;
+requestAnimationFrame(frame)}
+requestAnimationFrame(frame);
+
+const tickData=[['S&P 500','+0,55%',1],['NASDAQ','+0,01%',1],['DOW JONES','+0,11%',1],['ORO','+0,8%',1],['BRENT','-1,2%',0],['BONO 10A','5,27%',1],['BITCOIN','+2,1%',1]];
+const tickerEl=document.getElementById('ticker');
+let html='';
+for(let r=0;r<2;r++){tickData.forEach(([n,v,up])=>{html+=`<span><b>${n}</b><span class="${up?'up':'down'}">${v}</span></span>`})}
+tickerEl.innerHTML=html;
+</script>
+</body>
+</html>
