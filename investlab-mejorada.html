@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080808">
+  <meta name="description" content="InvestLab: una comunidad para aprender sobre inversión, compartir ideas y crecer juntos con criterio, disciplina y transparencia.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="InvestLab">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:title" content="InvestLab — Invertir se aprende en comunidad">
+  <meta property="og:description" content="Aprende, comparte y construye criterio junto a una comunidad de inversión.">
+  <meta name="twitter:card" content="summary">
+  <title>InvestLab — Invertir se aprende en comunidad</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23222'/%3E%3Cpath d='M26 14h12M28 14v14L17 47a3 3 0 0 0 3 5h24a3 3 0 0 0 3-5L36 28V14' fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+  <script>document.documentElement.classList.add('js')</script>
+  <style>
+    :root{
+      --bg:#080808;--panel:#101010;--paper:#f4f2ed;--muted:#a6a6a2;--line:rgba(255,255,255,.14);
+      --mono:"DM Mono",monospace;--sans:"Manrope",Arial,sans-serif;--serif:"Playfair Display",Georgia,serif;
+      --max:1180px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:90px}
+    body{margin:0;background:var(--bg);color:var(--paper);font-family:var(--sans);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:5;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.2'/%3E%3C/svg%3E");mix-blend-mode:soft-light}
+    a{color:inherit;text-decoration:none}
+    button,a,summary{-webkit-tap-highlight-color:transparent}
+    a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid #fff;outline-offset:5px}
+    ::selection{background:#f4f2ed;color:#080808}
+    .container{width:min(var(--max),calc(100% - 56px));margin-inline:auto}
+    .mono{font:11px/1.5 var(--mono);letter-spacing:.18em;text-transform:uppercase}
+    .muted{color:var(--muted)}
+    .skip{position:absolute;left:16px;top:-60px;background:#fff;color:#000;padding:10px 16px;z-index:100;font-size:13px;font-weight:700;transition:top .2s}
+    .skip:focus{top:12px}
+    .progress{position:fixed;top:0;left:0;height:3px;width:100%;z-index:50;background:linear-gradient(90deg,#fff,#aaa);transform-origin:0 50%;transform:scaleX(0)}
+    .topline{height:3px;background:linear-gradient(90deg,transparent,#fff 48%,transparent)}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:20;background:rgba(8,8,8,.76);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--line);transition:background .3s}
+    header.scrolled{background:rgba(8,8,8,.94)}
+    .nav{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:28px}
+    .brand{display:inline-flex;align-items:center;gap:12px;font-size:14px;font-weight:800;letter-spacing:.16em}
+    .brand img{height:42px;width:auto;display:block}
+    .brand-fallback{display:inline-flex;align-items:center;gap:12px}
+    .brand-fallback svg{width:40px;height:40px;display:block;flex:none}
+    .nav-links{display:flex;align-items:center;gap:30px;color:#c5c5c2;font-size:12px}
+    .nav-links a{transition:color .25s;position:relative}
+    .nav-links a:not(.nav-cta):after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:#fff;transform:scaleX(0);transform-origin:left;transition:transform .3s}
+    .nav-links a:hover,.nav-links a.active{color:#fff}
+    .nav-links a:not(.nav-cta):hover:after,.nav-links a.active:after{transform:scaleX(1)}
+    .nav-cta{border:1px solid rgba(255,255,255,.45);padding:11px 16px!important;color:#fff!important;transition:background .25s,color .25s}
+    .nav-cta:hover{background:#f4f2ed;color:#090909!important}
+    .menu-toggle{display:none;background:none;color:#fff;border:1px solid var(--line);padding:9px 12px;font:11px var(--mono);cursor:pointer}
+
+    /* Hero */
+    .hero{position:relative;min-height:760px;min-height:min(850px,calc(100svh - 78px));display:flex;align-items:center;isolation:isolate;overflow:hidden;border-bottom:1px solid var(--line)}
+    .hero-scene{position:absolute;inset:0;z-index:-2;overflow:hidden;background:
+      radial-gradient(ellipse at 72% 45%,rgba(235,235,228,.16),transparent 18%),
+      radial-gradient(ellipse at 75% 46%,rgba(255,255,255,.08),transparent 32%),
+      linear-gradient(105deg,#080808 5%,rgba(8,8,8,.92) 37%,rgba(8,8,8,.42) 67%,#080808 100%),
+      #101010}
+    .hero-scene:before{content:"";position:absolute;inset:-8% -3% 0 40%;background:
+      linear-gradient(90deg,transparent 0 15%,rgba(255,255,255,.08) 15.2%,transparent 15.7% 32%,rgba(255,255,255,.06) 32.2%,transparent 32.8%),
+      linear-gradient(0deg,rgba(255,255,255,.07),transparent 1px);background-size:100% 100%,100% 92px;transform:perspective(800px) rotateY(-17deg) skewY(-4deg);opacity:.65}
+    .hero-scene:after{content:"";position:absolute;right:4%;top:10%;width:39vw;height:76%;background:linear-gradient(112deg,transparent 15%,rgba(255,255,255,.08) 31%,rgba(255,255,255,.015) 48%,transparent 65%);filter:blur(28px);transform:rotate(-10deg)}
+    .hero-light{position:absolute;z-index:-1;right:10%;top:10%;width:1px;height:80%;background:linear-gradient(transparent,rgba(255,255,255,.65),transparent);box-shadow:0 0 55px 12px rgba(255,255,255,.1);animation:pulse 5s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+    .hero-chart{position:absolute;z-index:-1;right:6%;bottom:14%;width:min(520px,44vw);opacity:.5}
+    .hero-chart path{fill:none;stroke:#fff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 4.5s .6s ease forwards}
+    .hero-chart .ghost{stroke:rgba(255,255,255,.18);stroke-width:1;stroke-dasharray:none;animation:none}
+    @keyframes draw{to{stroke-dashoffset:0}}
+    .hero-content{padding:120px 0 112px;max-width:830px}
+    .eyebrow{display:flex;align-items:center;gap:12px;color:#c9c9c5;margin-bottom:31px}
+    .eyebrow:before{content:"";width:30px;height:1px;background:#fff}
+    h1{font-size:clamp(46px,7.4vw,96px);line-height:.99;letter-spacing:-.075em;font-weight:500;margin:0;max-width:900px}
+    h1 em{font-family:var(--serif);font-weight:500;letter-spacing:-.065em}
+    .hero-copy{max-width:520px;color:#b8b8b4;font-size:15px;line-height:1.9;margin:30px 0 32px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:13px;min-height:49px;padding:0 20px;font-size:12px;font-weight:700;transition:transform .25s,background .25s,border-color .25s,color .25s;cursor:pointer}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-light{background:#f4f2ed;color:#090909;border:1px solid #f4f2ed}
+    .btn-light:hover{background:#fff}
+    .btn-outline{border:1px solid rgba(255,255,255,.32);background:rgba(255,255,255,.025)}
+    .btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+    .btn-arrow{font-size:16px;font-weight:400}
+    .hero-note{margin-top:66px;display:flex;gap:16px;align-items:center;color:#858581}
+    .hero-note .rule{width:42px;height:1px;background:#555}
+    .side-index{position:absolute;right:28px;bottom:50px;writing-mode:vertical-rl;color:#858581}
+
+    /* Marquee */
+    .ticker{border-bottom:1px solid var(--line);overflow:hidden;background:#0b0b0b;padding:16px 0}
+    .ticker-track{display:flex;gap:48px;width:max-content;animation:tick 38s linear infinite;color:#8d8d87}
+    .ticker-track span{white-space:nowrap}
+    .ticker-track span:before{content:"◆";margin-right:48px;color:#555;font-size:8px;vertical-align:middle}
+    @keyframes tick{to{transform:translateX(-50%)}}
+
+    /* Sections */
+    .section{padding:125px 0;border-bottom:1px solid var(--line);position:relative}
+    .section-head{display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:start;margin-bottom:62px}
+    .kicker{color:#a5a5a0;margin:8px 0 18px}
+    h2{font-size:clamp(34px,5vw,62px);line-height:1.08;letter-spacing:-.065em;font-weight:500;margin:0}
+    h2 em{font-family:var(--serif);font-weight:500}
+    .section-intro{max-width:510px;color:#aaa9a4;font-size:14px;line-height:1.95;margin:6px 0 0}
+
+    /* Manifesto */
+    .manifesto{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line)}
+    .manifesto-main{padding:50px;min-height:320px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(135deg,rgba(255,255,255,.055),transparent 60%)}
+    .manifesto-main blockquote{font-size:clamp(24px,3.2vw,40px);line-height:1.3;letter-spacing:-.04em;margin:42px 0 0}
+    .manifesto-main blockquote em{font-family:var(--serif)}
+    .manifesto-side{border-left:1px solid var(--line);padding:45px;display:flex;flex-direction:column;justify-content:center;gap:24px}
+    .principle{display:grid;grid-template-columns:32px 1fr;gap:16px}
+    .principle-num{font:11px var(--mono);color:#898984;padding-top:4px}
+    .principle h3{font-size:15px;margin:0 0 5px;font-weight:700}
+    .principle p{font-size:12px;line-height:1.8;color:#999994;margin:0;max-width:360px}
+
+    /* Community */
+    .community{background:#f0efea;color:#101010}
+    .community .kicker,.community .section-intro{color:#666660}
+    .community .cards{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(0,0,0,.2);border-bottom:1px solid rgba(0,0,0,.2)}
+    .community .feature{padding:31px 28px 35px 0;min-height:250px}
+    .community .feature+.feature{border-left:1px solid rgba(0,0,0,.2);padding-left:28px}
+    .feature-icon{width:42px;height:42px;border:1px solid rgba(0,0,0,.28);display:grid;place-items:center;font-size:19px;margin-bottom:36px;transition:background .3s,color .3s}
+    .feature:hover .feature-icon{background:#101010;color:#f0efea}
+    .feature h3{font-size:19px;letter-spacing:-.04em;margin:0 0 11px}
+    .feature p{font-size:12px;color:#55554f;line-height:1.9;max-width:290px;margin:0}
+    .community-bottom{display:flex;justify-content:space-between;align-items:center;gap:30px;margin-top:34px}
+    .community-bottom p{font-size:13px;color:#55554f;max-width:480px;margin:0}
+    .community .btn-light{background:#111;color:#f4f2ed;border-color:#111}
+
+    /* Cómo funciona */
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);counter-reset:s}
+    .step{padding:38px 34px 42px;position:relative;counter-increment:s;transition:background .3s}
+    .step+.step{border-left:1px solid var(--line)}
+    .step:hover{background:rgba(255,255,255,.035)}
+    .step:before{content:"0" counter(s);font:11px var(--mono);letter-spacing:.18em;color:#898984;display:block;margin-bottom:62px}
+    .step h3{font-size:22px;letter-spacing:-.04em;margin:0 0 12px;font-weight:600}
+    .step p{font-size:13px;line-height:1.9;color:#9d9d98;margin:0}
+
+    /* Para quién / valores */
+    .values{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+    .value{background:var(--bg);padding:38px 36px}
+    .value h3{font-size:18px;margin:0 0 10px;letter-spacing:-.03em;font-weight:700;display:flex;align-items:center;gap:12px}
+    .value h3:before{content:"";width:8px;height:8px;background:#fff;box-shadow:0 0 12px rgba(255,255,255,.6);flex:none}
+    .value p{margin:0;font-size:13px;line-height:1.9;color:#9d9d98}
+    .value.no h3:before{background:transparent;border:1px solid #888;box-shadow:none}
+
+    /* About */
+    .about-grid{display:grid;grid-template-columns:.82fr 1fr;gap:10%;align-items:center}
+    .about-art{min-height:440px;position:relative;overflow:hidden;border:1px solid var(--line);background:
+      radial-gradient(ellipse at 50% 42%,rgba(255,255,255,.17),transparent 20%),
+      linear-gradient(145deg,transparent 0 30%,rgba(255,255,255,.055) 30.2%,transparent 30.8%),
+      linear-gradient(35deg,#050505 5%,#171717 52%,#090909 80%);display:grid;place-items:center}
+    .about-art:before{content:"";position:absolute;inset:13% 17%;border:1px solid rgba(255,255,255,.25);transform:perspective(600px) rotateY(-20deg) rotateZ(-7deg);box-shadow:0 0 60px rgba(255,255,255,.06),inset 0 0 70px rgba(255,255,255,.04)}
+    .about-art:after{content:"INVESTLAB";position:absolute;bottom:26px;left:26px;font:10px var(--mono);letter-spacing:.24em;color:#aaa}
+    .art-cross{position:absolute;top:25%;left:50%;width:1px;height:50%;background:linear-gradient(transparent,#fff,transparent);opacity:.65;box-shadow:0 0 35px 4px rgba(255,255,255,.14)}
+    .art-flask{width:120px;height:120px;position:relative;z-index:1;filter:drop-shadow(0 0 24px rgba(255,255,255,.25))}
+    .about-copy h2{margin-bottom:25px}
+    .about-copy>p{font-size:13px;color:#a8a8a3;line-height:2;margin:0 0 18px;max-width:540px}
+    .about-quote{margin-top:32px;padding:20px 0 0;border-top:1px solid var(--line);font:italic 19px/1.5 var(--serif);color:#e2e2dd}
+    .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:64px;border:1px solid var(--line)}
+    .pillar{padding:30px 28px}
+    .pillar+.pillar{border-left:1px solid var(--line)}
+    .pillar .mono{color:#898984;display:block;margin-bottom:14px}
+    .pillar h3{font-size:17px;margin:0 0 8px;letter-spacing:-.03em}
+    .pillar p{font-size:12px;line-height:1.85;color:#999994;margin:0}
+
+    /* FAQ */
+    .faq-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:60px;align-items:start}
+    .faq-side{position:sticky;top:110px}
+    .faq-side .section-intro{margin-top:22px}
+    .faq-side .btn{margin-top:28px}
+    .faq-list{border-top:1px solid var(--line)}
+    details{border-bottom:1px solid var(--line)}
+    summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:26px 0;font-size:17px;font-weight:600;letter-spacing:-.025em;transition:color .25s}
+    summary::-webkit-details-marker{display:none}
+    summary:hover{color:#fff}
+    summary .plus{flex:none;width:30px;height:30px;border:1px solid rgba(255,255,255,.3);position:relative;transition:transform .35s,background .3s}
+    summary .plus:before,summary .plus:after{content:"";position:absolute;left:50%;top:50%;width:11px;height:1px;background:#fff;transform:translate(-50%,-50%);transition:transform .35s}
+    summary .plus:after{transform:translate(-50%,-50%) rotate(90deg)}
+    details[open] summary .plus{background:#f4f2ed;transform:rotate(180deg)}
+    details[open] summary .plus:before,details[open] summary .plus:after{background:#080808}
+    details[open] summary .plus:after{transform:translate(-50%,-50%) rotate(0)}
+    .faq-a{padding:0 54px 28px 0;color:#a8a8a3;font-size:14px;line-height:1.95;animation:fade .4s ease}
+    .faq-a p{margin:0 0 12px}
+    .faq-a a{color:#fff;border-bottom:1px solid #666}
+    @keyframes fade{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+    /* Contact */
+    .contact{padding:105px 0 110px;background:radial-gradient(ellipse at 50% 100%,rgba(255,255,255,.09),transparent 52%),#0c0c0c;text-align:center}
+    .contact h2{max-width:790px;margin:20px auto 22px}
+    .contact-copy{max-width:510px;color:#a7a7a1;font-size:13px;line-height:1.9;margin:0 auto 32px}
+    .contact-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+    .mail-link{display:inline-block;margin-top:30px;color:#c9c9c4;font:12px var(--mono);border-bottom:1px solid #5a5a56;padding-bottom:5px;transition:color .25s,border-color .25s}
+    .mail-link:hover{color:#fff;border-color:#fff}
+
+    /* Footer */
+    footer{padding:28px 0 32px;color:#8d8d87}
+    .footer-top{display:flex;align-items:center;justify-content:space-between;gap:25px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+    .footer-links{display:flex;gap:22px;font-size:11px}
+    .footer-links a{transition:color .25s}
+    .footer-links a:hover{color:#fff}
+    .footer-bottom{display:flex;justify-content:space-between;gap:24px;padding-top:20px;font-size:10px;line-height:1.7}
+    .footer-bottom p{max-width:760px;margin:0}
+
+    /* Back to top */
+    .to-top{position:fixed;right:22px;bottom:22px;z-index:30;width:46px;height:46px;border:1px solid rgba(255,255,255,.4);background:rgba(8,8,8,.85);color:#fff;font-size:16px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s,background .25s}
+    .to-top.show{opacity:1;pointer-events:auto}
+    .to-top:hover{background:#f4f2ed;color:#080808;transform:translateY(-2px)}
+
+    .js .reveal{opacity:0;transform:translateY(20px);transition:opacity .75s ease,transform .75s ease}
+    .js .reveal.visible{opacity:1;transform:none}
+
+    @media(max-width:900px){
+      .steps{grid-template-columns:1fr}
+      .step+.step{border-left:0;border-top:1px solid var(--line)}
+      .step:before{margin-bottom:28px}
+      .values{grid-template-columns:1fr}
+      .pillars{grid-template-columns:1fr}
+      .pillar+.pillar{border-left:0;border-top:1px solid var(--line)}
+      .faq-wrap{grid-template-columns:1fr;gap:34px}
+      .faq-side{position:static}
+    }
+    @media(max-width:760px){
+      .container{width:min(var(--max),calc(100% - 36px))}
+      .nav{min-height:68px}.menu-toggle{display:block}
+      .brand img{height:36px}.brand-fallback svg{width:34px;height:34px}
+      .nav-links{display:none;position:absolute;top:68px;left:0;right:0;background:rgba(8,8,8,.98);padding:22px 20px 26px;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:20px}
+      .nav-links.open{display:flex}.nav-links a{padding:5px 0}.nav-cta{text-align:center}
+      .hero{min-height:690px;min-height:calc(100svh - 68px)}
+      .hero-content{padding:90px 0 75px}
+      .hero-chart{width:90%;right:-10%;bottom:6%;opacity:.28}
+      .hero-scene{background:radial-gradient(ellipse at 78% 33%,rgba(255,255,255,.13),transparent 25%),linear-gradient(105deg,#080808 0%,rgba(8,8,8,.75) 100%),#101010}
+      .hero-scene:before{left:20%;opacity:.4}
+      .side-index{right:14px;bottom:24px;font-size:9px}
+      .section{padding:83px 0}
+      .section-head{grid-template-columns:1fr;gap:22px;margin-bottom:38px}
+      .manifesto{grid-template-columns:1fr}
+      .manifesto-main{padding:29px;min-height:260px}
+      .manifesto-side{border-left:0;border-top:1px solid var(--line);padding:28px}
+      .community .cards{grid-template-columns:1fr}
+      .community .feature{min-height:0;padding:26px 0}
+      .community .feature+.feature{border-left:0;border-top:1px solid rgba(0,0,0,.2);padding-left:0}
+      .feature-icon{margin-bottom:20px}
+      .community-bottom{align-items:flex-start;flex-direction:column}
+      .about-grid{grid-template-columns:1fr;gap:35px}
+      .about-art{min-height:320px}
+      .faq-a{padding-right:0}
+      summary{font-size:16px;padding:22px 0}
+      .contact{padding:80px 0}
+      .footer-top,.footer-bottom{align-items:flex-start;flex-direction:column}
+      .footer-links{flex-wrap:wrap;gap:14px 20px}
+      .to-top{right:14px;bottom:14px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+      .js .reveal{opacity:1;transform:none}
+      .hero-chart path{stroke-dashoffset:0}
+    }
+  </style>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":"InvestLab","email":"investlab@outlook.es","sameAs":["https://whatsapp.com/channel/0029VbDvuqaHrDZWlTD1MX34","https://www.youtube.com/channel/UCIQTJbA-q1zY8fIxdmKHK9g"],"description":"Comunidad educativa sobre inversión y mercados financieros. El contenido no constituye asesoramiento financiero."}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"¿InvestLab da asesoramiento financiero?","acceptedAnswer":{"@type":"Answer","text":"No. Todo el contenido de InvestLab es informativo y educativo. Nada de lo que se comparte es una recomendación personalizada de inversión ni una garantía de resultados."}},
+    {"@type":"Question","name":"¿Necesito experiencia previa para unirme?","acceptedAnswer":{"@type":"Answer","text":"No. La comunidad está pensada para quien quiere aprender, tanto si está empezando como si ya tiene recorrido y quiere contrastar ideas."}},
+    {"@type":"Question","name":"¿Cómo me uno a la comunidad?","acceptedAnswer":{"@type":"Answer","text":"Entrando en nuestro canal de WhatsApp y siguiendo nuestro canal de YouTube. Son los dos puntos de encuentro principales."}},
+    {"@type":"Question","name":"¿Prometéis rentabilidades?","acceptedAnswer":{"@type":"Answer","text":"No. Toda inversión conlleva riesgos y se puede perder dinero. En InvestLab no hay promesas de rentabilidad ni fórmulas mágicas."}},
+    {"@type":"Question","name":"¿Cómo puedo contactar con InvestLab?","acceptedAnswer":{"@type":"Answer","text":"Escribiendo a investlab@outlook.es o a través de nuestros canales de WhatsApp y YouTube."}}
+  ]}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <div class="topline"></div>
+
+  <header id="top">
+    <div class="container nav">
+      <a class="brand" href="#inicio" aria-label="InvestLab, inicio">
+        <!-- Pon tu logo real como "logo.png" junto a este archivo. Si no existe, se muestra la versión en SVG. -->
+        <img src="logo.png" alt="InvestLab" id="logo-img" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='inline-flex'">
+        <span class="brand-fallback" id="logo-fallback" style="display:none">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="#222" stroke="rgba(255,255,255,.12)"/><path d="M26 14h12M28 14v14L17.5 46.5a3 3 0 0 0 2.6 4.5h23.8a3 3 0 0 0 2.6-4.5L36 28V14" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 43l5-5 4 4 5-8 6 9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>INVESTLAB</span>
+        </span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links">MENÚ +</button>
+      <nav class="nav-links" id="nav-links" aria-label="Navegación principal">
+        <a href="#objetivo">Objetivo</a>
+        <a href="#comunidad">Comunidad</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#nosotros">Sobre nosotros</a>
+        <a href="#faq">Preguntas</a>
+        <a class="nav-cta" href="https://whatsapp.com/channel/0029VbDvuqaHrDZWlTD1MX34" target="_blank" rel="noopener noreferrer">Únete a la comunidad ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="hero-scene" aria-hidden="true"></div><div class="hero-light" aria-hidden="true"></div>
+      <svg class="hero-chart" viewBox="0 0 520 260" aria-hidden="true" preserveAspectRatio="none">
+        <path class="ghost" d="M0 60H520M0 120H520M0 180H520M0 240H520"/>
+        <path d="M0 220 L50 196 L95 208 L150 150 L200 170 L260 100 L310 124 L370 62 L420 84 L470 28 L520 40"/>
+      </svg>
+      <div class="container">
+        <div class="hero-content">
+          <div class="eyebrow mono">Una nueva forma de aprender a invertir</div>
+          <h1 id="hero-title">Los mercados cambian.<br>Crecer <em>juntos</em>, no.</h1>
+          <p class="hero-copy">InvestLab nace con una idea: construir una comunidad de inversión donde compartir conocimiento, contrastar ideas y avanzar con criterio. Sin promesas vacías. Sin hacerlo solos.</p>
+          <div class="actions">
+            <a class="btn btn-light" href="https://whatsapp.com/channel/0029VbDvuqaHrDZWlTD1MX34" target="_blank" rel="noopener noreferrer">Entrar en la comunidad <span class="btn-arrow">↗</span></a>
+            <a class="btn btn-outline" href="https://www.youtube.com/channel/UCIQTJbA-q1zY8fIxdmKHK9g" target="_blank" rel="noopener noreferrer">Ver nuestro YouTube <span class="btn-arrow">↗</span></a>
+          </div>
+          <div class="hero-note mono"><span class="rule"></span><span>Conocimiento · Disciplina · Comunidad</span></div>
+        </div>
+      </div>
+      <div class="side-index mono" aria-hidden="true">INVESTLAB — 001 / COMUNIDAD</div>
+    </section>
+
+    <div class="ticker mono" aria-hidden="true">
+      <div class="ticker-track">
+        <span>Aprender</span><span>Compartir</span><span>Contrastar</span><span>Criterio</span><span>Disciplina</span><span>Largo plazo</span><span>Comunidad</span><span>Transparencia</span>
+        <span>Aprender</span><span>Compartir</span><span>Contrastar</span><span>Criterio</span><span>Disciplina</span><span>Largo plazo</span><span>Comunidad</span><span>Transparencia</span>
+      </div>
+    </div>
+
+    <section class="section" id="objetivo">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><p class="kicker mono">01 / Nuestro objetivo</p><h2>Invertir mejor empieza por <em>aprender juntos.</em></h2></div>
+          <p class="section-intro">No queremos ser solo un lugar donde leer análisis. Queremos impulsar un espacio en el que las personas puedan aprender unas de otras, compartir perspectivas y desarrollar su propio criterio a largo plazo.</p>
+        </div>
+        <div class="manifesto reveal">
+          <div class="manifesto-main">
+            <p class="mono muted">Nuestra idea central</p>
+            <blockquote>“Una comunidad crece de verdad cuando <em>el conocimiento se comparte</em> y nadie tiene que avanzar solo.”</blockquote>
+          </div>
+          <div class="manifesto-side">
+            <div class="principle"><span class="principle-num">01</span><div><h3>Aprender sin aparentar</h3><p>Preguntar, investigar y reconocer que siempre hay algo nuevo que entender.</p></div></div>
+            <div class="principle"><span class="principle-num">02</span><div><h3>Compartir con responsabilidad</h3><p>Intercambiar ideas y puntos de vista sin confundir una opinión con una garantía.</p></div></div>
+            <div class="principle"><span class="principle-num">03</span><div><h3>Crecer en comunidad</h3><p>Construir un entorno en el que el apoyo mutuo y el respeto sean parte del proceso.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section community" id="comunidad">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><p class="kicker mono">02 / La comunidad</p><h2>Un lugar para compartir el <em>camino.</em></h2></div>
+          <p class="section-intro">La inversión puede parecer individual, pero aprender no tiene por qué serlo. Queremos reunir a personas con curiosidad, ganas de mejorar y voluntad de compartir lo que van descubriendo.</p>
+        </div>
+        <div class="cards reveal">
+          <article class="feature"><div class="feature-icon" aria-hidden="true">↗</div><h3>Ideas que se contrastan</h3><p>Compartir análisis, preguntas y perspectivas para mirar el mercado desde más de un ángulo.</p></article>
+          <article class="feature"><div class="feature-icon" aria-hidden="true">◎</div><h3>Aprendizaje continuo</h3><p>Crear una cultura de curiosidad, disciplina y mejora constante, sin atajos ni fórmulas mágicas.</p></article>
+          <article class="feature"><div class="feature-icon" aria-hidden="true">↔</div><h3>Apoyo mutuo</h3><p>Avanzar en compañía, escuchar con respeto y celebrar el conocimiento que cada persona aporta.</p></article>
+        </div>
+        <div class="community-bottom reveal">
+          <p>¿Te identificas con esta forma de entender la inversión? El primer paso es sencillo: ven a conocernos.</p>
+          <a class="btn btn-light" href="https://whatsapp.com/channel/0029VbDvuqaHrDZWlTD1MX34" target="_blank" rel="noopener noreferrer">Descubrir la comunidad <span class="btn-arrow">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="como-funciona">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><p class="kicker mono">03 / Cómo funciona</p><h2>Empezar es <em>muy sencillo.</em></h2></div>
+          <p class="section-intro">No hay formularios largos ni requisitos de entrada. Tres pasos para empezar a formar parte de InvestLab.</p>
+        </div>
+        <div class="steps reveal">
+          <article class="step"><h3>Entra en el canal</h3><p>Únete a nuestro canal de WhatsApp para seguir las publicaciones y novedades de la comunidad.</p></article>
+          <article class="step"><h3>Sigue y aprende</h3><p>Ve nuestros vídeos en YouTube y empieza a construir tu propio criterio con calma y a tu ritmo.</p></article>
+          <article class="step"><h3>Aporta tu mirada</h3><p>Comparte lo que descubres, plantea tus dudas y escríbenos. La comunidad se construye entre todos.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="valores" style="padding-top:0">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><p class="kicker mono">04 / Claridad</p><h2>Qué somos y <em>qué no.</em></h2></div>
+          <p class="section-intro">Preferimos que sepas desde el principio qué puedes esperar de InvestLab. La transparencia es parte del criterio.</p>
+        </div>
+        <div class="values reveal">
+          <div class="value"><h3>Educación y conversación</h3><p>Análisis, aprendizaje y debate para entender mejor lo que hacemos con nuestro dinero.</p></div>
+          <div class="value no"><h3>No es asesoramiento</h3><p>Nada de lo que compartimos es una recomendación personalizada de inversión.</p></div>
+          <div class="value"><h3>Visión a largo plazo</h3><p>Importa más comprender el porqué de una decisión que perseguir resultados rápidos.</p></div>
+          <div class="value no"><h3>Sin promesas de rentabilidad</h3><p>Toda inversión conlleva riesgos. No vendemos fórmulas mágicas ni atajos.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="nosotros">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-art reveal" aria-hidden="true">
+            <span class="art-cross"></span>
+            <svg class="art-flask" viewBox="0 0 64 64"><circle cx="32" cy="32" r="31" fill="#1c1c1c" stroke="rgba(255,255,255,.25)"/><path d="M26 14h12M28 14v14L17.5 46.5a3 3 0 0 0 2.6 4.5h23.8a3 3 0 0 0 2.6-4.5L36 28V14" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 43l5-5 4 4 5-8 6 9" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="about-copy reveal">
+            <p class="kicker mono">05 / Sobre InvestLab</p>
+            <h2>Menos ruido.<br><em>Más criterio.</em></h2>
+            <p>InvestLab es un proyecto que busca acercar el mundo de la inversión a través del análisis, el aprendizaje y la conversación. Creemos que comprender lo que hacemos importa más que perseguir resultados rápidos.</p>
+            <p>Queremos construir algo que vaya más allá de una publicación o un vídeo: una comunidad que se apoye, comparta recursos y mantenga los pies en la tierra incluso cuando el mercado se mueve.</p>
+            <p>Por eso el nombre: un laboratorio. Un lugar donde se plantean hipótesis, se contrastan, se equivocan y se corrigen, siempre con la mente abierta.</p>
+            <div class="about-quote">“No se trata de tener siempre razón. Se trata de aprender a pensar mejor.”</div>
+          </div>
+        </div>
+        <div class="pillars reveal">
+          <div class="pillar"><span class="mono">Misión</span><h3>Acercar la inversión</h3><p>Hacer que aprender sobre inversión sea accesible, claro y acompañado.</p></div>
+          <div class="pillar"><span class="mono">Visión</span><h3>Una comunidad con criterio</h3><p>Un espacio donde cada persona piense por sí misma y aprenda de los demás.</p></div>
+          <div class="pillar"><span class="mono">Valores</span><h3>Respeto y transparencia</h3><p>Honestidad sobre los riesgos, humildad al opinar y respeto en cada conversación.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container faq-wrap">
+        <div class="faq-side reveal">
+          <p class="kicker mono">06 / Preguntas frecuentes</p>
+          <h2>Dudas <em>habituales.</em></h2>
+          <p class="section-intro">Lo que más nos preguntan antes de unirse. Si no encuentras la tuya, escríbenos.</p>
+          <a class="btn btn-outline" href="mailto:investlab@outlook.es?subject=Pregunta%20%7C%20InvestLab">Hacer otra pregunta <span class="btn-arrow">→</span></a>
+        </div>
+        <div class="faq-list reveal">
+          <details>
+            <summary>¿InvestLab da asesoramiento financiero?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="faq-a"><p>No. Todo el contenido es informativo y educativo. Nada de lo que se comparte es una recomendación personalizada de inversión. Cada persona es responsable de sus propias decisiones.</p></div>
+          </details>
+          <details>
+            <summary>¿Necesito experiencia previa para unirme?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="faq-a"><p>No. La comunidad está pensada para quien quiere aprender, tanto si está empezando como si ya tiene recorrido y quiere contrastar ideas con otras personas.</p></div>
+          </details>
+          <details>
+            <summary>¿Cómo me uno a la comunidad?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="faq-a"><p>Entrando en nuestro <a href="https://whatsapp.com/channel/0029VbDvuqaHrDZWlTD1MX34" target="_blank" rel="noopener noreferrer">canal de WhatsApp</a> y siguiendo nuestro <a href="https://www.youtube.com/channel/UCIQTJbA-q1zY8fIxdmKHK9g" target="_blank" rel="noopener noreferrer">canal de YouTube</a>. Son los dos puntos de encuentro principales.</p></div>
+          </details>
+          <details>
+            <summary>¿Qué tipo de contenido se comparte?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="faq-a"><p>Análisis, ideas, recursos y reflexiones sobre inversión y mercados financieros, siempre con un enfoque educativo y de aprendizaje a largo plazo.</p></div>
+          </details>
+          <details>
+            <summary>¿Prometéis rentabilidades?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="faq-a"><p>No. Toda inversión conlleva riesgos y se puede perder dinero. En InvestLab no hay promesas de rentabilidad, atajos ni fórmulas mágicas.</p></div>
+          </details>
+          <details>
+            <summary>¿Puedo aportar mis propias ideas o análisis?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="faq-a"><p>Sí, y es justo lo que buscamos. Si quieres compartir tu punto de vista o tu trabajo, escríbenos a <a href="mailto:investlab@outlook.es?subject=Contacto%20%7C%20InvestLab">investlab@outlook.es</a>.</p></div>
+          </details>
+          <details>
+            <summary>¿Cómo puedo contactar con InvestLab?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="faq-a"><p>Escribiendo a <a href="mailto:investlab@outlook.es">investlab@outlook.es</a> o a través de nuestros canales de WhatsApp y YouTube.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contacto">
+      <div class="container reveal">
+        <p class="mono muted">07 / Da el siguiente paso</p>
+        <h2>El próximo paso no tienes que darlo <em>solo.</em></h2>
+        <p class="contact-copy">Únete a la comunidad, conoce nuestras publicaciones o escríbenos. Nos interesa construir InvestLab junto a personas que compartan esta visión.</p>
+        <div class="contact-actions">
+          <a class="btn btn-light" href="https://whatsapp.com/channel/0029VbDvuqaHrDZWlTD1MX34" target="_blank" rel="noopener noreferrer">WhatsApp <span class="btn-arrow">↗</span></a>
+          <a class="btn btn-outline" href="https://www.youtube.com/channel/UCIQTJbA-q1zY8fIxdmKHK9g" target="_blank" rel="noopener noreferrer">YouTube <span class="btn-arrow">↗</span></a>
+        </div>
+        <a class="mail-link" href="mailto:investlab@outlook.es?subject=Contacto%20%7C%20InvestLab">Contactar → investlab@outlook.es</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <a class="brand" href="#inicio" aria-label="InvestLab, volver al inicio">
+          <svg viewBox="0 0 64 64" width="34" height="34" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="#222" stroke="rgba(255,255,255,.12)"/><path d="M26 14h12M28 14v14L17.5 46.5a3 3 0 0 0 2.6 4.5h23.8a3 3 0 0 0 2.6-4.5L36 28V14" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 43l5-5 4 4 5-8 6 9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>INVESTLAB</span>
+        </a>
+        <nav class="footer-links" aria-label="Enlaces de pie de página">
+          <a href="#objetivo">Objetivo</a><a href="#comunidad">Comunidad</a><a href="#nosotros">Sobre nosotros</a><a href="#faq">Preguntas</a>
+          <a href="https://www.youtube.com/channel/UCIQTJbA-q1zY8fIxdmKHK9g" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+          <a href="https://whatsapp.com/channel/0029VbDvuqaHrDZWlTD1MX34" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p>El contenido de InvestLab tiene fines informativos y educativos y no constituye asesoramiento financiero personalizado ni una recomendación de inversión. Toda inversión conlleva riesgos, incluida la pérdida del capital invertido. Las rentabilidades pasadas no garantizan resultados futuros.</p>
+        <span class="mono">© <span id="year">2026</span> INVESTLAB</span>
+      </div>
+    </div>
+  </footer>
+
+  <button class="to-top" id="toTop" type="button" aria-label="Volver arriba">↑</button>
+
+  <script>
+    const header = document.querySelector('header');
+    const menuButton = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const toTop = document.getElementById('toTop');
+    const progress = document.getElementById('progress');
+
+    function closeMenu(){
+      navLinks.classList.remove('open');
+      menuButton.setAttribute('aria-expanded','false');
+      menuButton.textContent = 'MENÚ +';
+    }
+    menuButton.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', String(isOpen));
+      menuButton.textContent = isOpen ? 'CERRAR −' : 'MENÚ +';
+    });
+    navLinks.querySelectorAll('a').forEach(l => l.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Scroll: header, progress bar, back-to-top
+    let ticking = false;
+    function onScroll(){
+      const y = window.scrollY;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      header.classList.toggle('scrolled', y > 20);
+      toTop.classList.toggle('show', y > 700);
+      progress.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
+      ticking = false;
+    }
+    window.addEventListener('scroll', () => {
+      if (!ticking){ requestAnimationFrame(onScroll); ticking = true; }
+    }, {passive:true});
+    onScroll();
+    toTop.addEventListener('click', () => window.scrollTo({top:0}));
+
+    // Reveal on scroll
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealItems = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window && !reduceMotion) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {threshold: 0.12});
+      revealItems.forEach(item => observer.observe(item));
+    } else {
+      revealItems.forEach(item => item.classList.add('visible'));
+    }
+
+    // Active nav link
+    const sections = ['objetivo','comunidad','como-funciona','nosotros','faq'].map(id => document.getElementById(id));
+    const links = [...navLinks.querySelectorAll('a:not(.nav-cta)')];
+    if ('IntersectionObserver' in window) {
+      const spy = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+          }
+        });
+      }, {rootMargin:'-45% 0px -50% 0px'});
+      sections.forEach(s => s && spy.observe(s));
+    }
+
+    // FAQ: abrir una a la vez
+    const faqs = document.querySelectorAll('.faq-list details');
+    faqs.forEach(d => d.addEventListener('toggle', () => {
+      if (d.open) faqs.forEach(o => { if (o !== d) o.open = false; });
+    }));
+  </script>
+</body>
+</html>
