@@ -33,6 +33,7 @@ Sube `hero.mp4` y `trailer-poster.jpg` a la misma carpeta raíz que `index.html`
 
 ## Páginas añadidas
 - `glosario/*.html` (54 términos) + `glosario/index.html`, generados con `pages.py` desde el glosario de `index.html`.
+- `assets/site.css` y `assets/site.js` (estilo y animaciones compartidos por las páginas interiores; se regeneran con `pages.py`).
 - `sobre.html`, `404.html`, `og-image.png` (1200×630), `sitemap.xml` (57 URLs) y `vercel.json` (`cleanUrls`: /glosario, /sobre).
 - Analítica sin cookies: activar **Analytics** en el panel de Vercel (Project → Analytics).
 - Sube TODOS los archivos y carpetas (incluidos `hero.mp4` y `trailer-poster.jpg`).
